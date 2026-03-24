@@ -19,3 +19,4 @@ def cargar_tareas():
     """for diccionario in lista_diccionarios:
         lista_tareas.append(Tarea.from_dict(diccionario)) + este y el de arriba hacen lo mismo, el primero es mas
     return lista_tareas"""
+# no se que pasa
