@@ -1,8 +1,15 @@
 """SQL"""
 import sqlite3
-conexion = sqlite3.connect("tareas.db")
-cursor = conexion.cursor()
-cursor.execute("""
+
+
+def obtener_conexion():
+    return sqlite3.connect("gestor_tareas/tareas.db")
+
+
+def crear_tabla():
+    conexion = obtener_conexion()
+    cursor = conexion.cursor()
+    cursor.execute("""
     CREATE TABLE IF NOT EXISTS tareas (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         titulo TEXT NOT NULL,
@@ -10,11 +17,42 @@ cursor.execute("""
         completada INTEGER DEFAULT 0
     )
 """)
-cursor.execute("""
-    INSERT INTO tareas (titulo, descripcion, completada)
-    VALUES (?, ?, ?)
-""", ("Guitarra", "practicar 1 hora", 0))
+    conexion.commit()
+    conexion.close()
 
-conexion.commit()
-cursor.execute("SELECT * FROM tareas")
-print(cursor.fetchall())
+
+def obtener_tareas():
+    conexion = obtener_conexion()
+    cursor = conexion.cursor()
+    cursor.execute("SELECT * FROM tareas")
+    tareas = cursor.fetchall()
+    conexion.close()
+    return tareas
+
+
+def crear_tarea(titulo, descripcion, completada):
+    conexion = obtener_conexion()
+    cursor = conexion.cursor()
+    cursor.execute("""INSERT INTO tareas(titulo, descripcion, completada)
+                   VALUES(?,?,?)""", (titulo, descripcion, completada))
+    conexion.commit()
+    conexion.close()
+
+
+def marcar_completada(id):
+    conexion = obtener_conexion()
+    cursor = conexion.cursor()
+    cursor.execute("""UPDATE tareas SET completada = 1 WHERE id = ?""", (id,))
+    conexion.commit()
+    conexion.close()
+
+
+def eliminar_tarea(id):
+    conexion = obtener_conexion()
+    cursor = conexion.cursor()
+    cursor.execute("""DELETE FROM tareas WHERE id = ?""", (id,))
+    conexion.commit()
+    conexion.close()
+
+
+crear_tabla()
