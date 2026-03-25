@@ -53,6 +53,3 @@ def eliminar_tarea(id):
     cursor.execute("""DELETE FROM tareas WHERE id = ?""", (id,))
     conexion.commit()
     conexion.close()
-
-
-crear_tabla()

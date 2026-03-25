@@ -1,16 +1,8 @@
 """main"""
-from storage import cargar_tareas, guardar_tareas
-from models import Tarea, GestorTareas
+from db import crear_tabla, crear_tarea, marcar_completada, eliminar_tarea, obtener_tareas
 
-gestor = GestorTareas()
+crear_tabla()
 
-try:
-    for tarea in cargar_tareas():
-        gestor.lista_tareas.append(tarea)
-    if gestor.lista_tareas:
-        gestor.contador = max(tarea.id for tarea in gestor.lista_tareas)
-except FileNotFoundError:
-    pass
 while True:
     num_accion = input(
         "Escoja lo que quiere hacer:\n1. Crear tarea\n2. Listar tareas\n3. Marcar tarea como completada\n4. Eliminar tarea\n5. Salir\n")
@@ -19,10 +11,11 @@ while True:
         descripcion = input("Escriba la descripcion\n")
         completada = (
             input("Escriba True si esta completa o False si no lo esta\n")) == "True"
-        tarea_creada = Tarea(0, titulo, descripcion, completada)
-        gestor.añadir_tarea(tarea_creada)
+        crear_tarea(titulo, descripcion, completada)
     elif num_accion == "2":
-        gestor.imprime_lista()
+        for tarea in obtener_tareas():
+            print(
+                f"ID: {tarea[0]} | Titulo: {tarea[1]} | Descripcion: {tarea[2]} | Completada:  {'Sí' if tarea[3] else 'No'}")
     elif num_accion == "3":
         try:
             num_tarea_completada = int(
@@ -30,11 +23,8 @@ while True:
         except ValueError:
             print("Error debes escribir un numero")
             continue
-        tarea = gestor.buscar_por_id(num_tarea_completada)
-        if tarea:
-            tarea.marcar_completada()
-        else:
-            print("Error:Tarea no existente")
+        marcar_completada(num_tarea_completada)
+
     elif num_accion == "4":
         try:
             num_id_eliminar = int(
@@ -42,9 +32,8 @@ while True:
         except ValueError:
             print("Error debes ecribir un numero")
             continue
-        gestor.eliminar_tarea(num_id_eliminar)
+        eliminar_tarea(num_id_eliminar)
     elif num_accion == "5":
-        guardar_tareas(gestor)
         break
     else:
         print("Error: orden no existente en el asistente")
