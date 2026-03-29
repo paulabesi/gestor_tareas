@@ -53,3 +53,30 @@ def eliminar_tarea(id):
     cursor.execute("""DELETE FROM tareas WHERE id = ?""", (id,))
     conexion.commit()
     conexion.close()
+
+
+def obtener_tareas_pendientes():
+    conexion = obtener_conexion()
+    cursor = conexion.cursor()
+    cursor.execute("""SELECT * FROM tareas WHERE completada = ?""", (0,))
+    tareas = cursor.fetchall()
+    conexion.close()
+    return tareas
+
+
+def obtener_tareas_completadas():
+    conexion = obtener_conexion()
+    cursor = conexion.cursor()
+    cursor.execute("""SELECT * FROM tareas WHERE completada = ?""", (1,))
+    tareas = cursor.fetchall()
+    conexion.close()
+    return tareas
+
+
+def obtener_tarea_por_id(id):
+    conexion = obtener_conexion()
+    cursor = conexion.cursor()
+    cursor.execute("SELECT * FROM tareas WHERE id = ?", (id,))
+    tareas = cursor.fetchone()
+    conexion.close()
+    return tareas
