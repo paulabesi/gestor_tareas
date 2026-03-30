@@ -4,6 +4,12 @@ from db import crear_tabla, crear_tarea, marcar_completada, eliminar_tarea, obte
 
 crear_tabla()
 
+
+def print_tareas(tarea):
+    print(
+        f"ID: {tarea[0]} | Titulo: {tarea[1]} | Descripcion: {tarea[2]} | Completada:  {'Sí' if tarea[3] else 'No'}")
+
+
 while True:
     num_accion = input(
         "Escoja lo que quiere hacer:\n1. Crear tarea\n2. Listar tareas\n3. Marcar tarea como completada\n4. Eliminar tarea\n5. Salir\n")
@@ -19,16 +25,13 @@ while True:
         que_lista_quiere = que_lista_quiere.upper()
         if que_lista_quiere == "A":
             for tarea in obtener_tareas():
-                print(
-                    f"ID: {tarea[0]} | Titulo: {tarea[1]} | Descripcion: {tarea[2]} | Completada:  {'Sí' if tarea[3] else 'No'}")
+                print_tareas(tarea)
         elif que_lista_quiere == "B":
             for tarea in obtener_tareas_completadas():
-                print(
-                    f"ID: {tarea[0]} | Titulo: {tarea[1]} | Descripcion: {tarea[2]} | Completada:  {'Sí' if tarea[3] else 'No'}")
+                print_tareas(tarea)
         elif que_lista_quiere == "C":
             for tarea in obtener_tareas_pendientes():
-                print(
-                    f"ID: {tarea[0]} | Titulo: {tarea[1]} | Descripcion: {tarea[2]} | Completada:  {'Sí' if tarea[3] else 'No'}")
+                print_tareas(tarea)
         else:
             print("Por favor escoja una letra de las que le hemos listado")
     elif num_accion == "3":
