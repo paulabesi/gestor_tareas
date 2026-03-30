@@ -1,3 +1,4 @@
+
 """gestor de tareas"""
 from db import crear_tabla, crear_tarea, marcar_completada, eliminar_tarea, obtener_tareas, obtener_tareas_completadas, obtener_tareas_pendientes, obtener_tarea_por_id
 
