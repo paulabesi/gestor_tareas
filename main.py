@@ -1,4 +1,4 @@
-"""main"""
+"""programa principal"""
 from db import crear_tabla, crear_tarea, marcar_completada, eliminar_tarea, obtener_tareas, obtener_tareas_completadas, obtener_tareas_pendientes, obtener_tarea_por_id
 
 crear_tabla()
@@ -59,5 +59,4 @@ while True:
         break
     else:
         print("Error: orden no existente en el asistente")
-        #cambios para git
-
+        # cambios para git
