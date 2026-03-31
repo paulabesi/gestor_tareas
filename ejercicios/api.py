@@ -1,5 +1,6 @@
 """API"""
 import requests
+import os
 try:
     respuesta = requests.get(
         "https://official-joke-api.appspot.com/random_joke")
@@ -22,3 +23,7 @@ try:
         f"la temeperatura es de {temperatura} grados, el tiempo esta {desc_tiempo}, la humedad es de {humedad}, y el viento va a {veloc_viento}")
 except requests.exceptions.RequestException:
     print("Error de conexion, comprueba tu internet")
+
+with open("gestor_tareas/ejercicios/archivo.txt", "w") as archivo:
+    archivo.write(
+        f"la temperatura es de {temperatura} grados, el tiempo esta {desc_tiempo}, la humedad es de {humedad}, y el viento va a {veloc_viento}")
