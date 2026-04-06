@@ -80,3 +80,12 @@ def obtener_tarea_por_id(id):
     tareas = cursor.fetchone()
     conexion.close()
     return tareas
+
+
+def actualizar_tarea(id, titulo, descripcion, completada):
+    conexion = obtener_conexion()
+    cursor = conexion.cursor()
+    cursor.execute("""UPDATE tareas SET titulo = ?,descripcion = ?, completada = ? WHERE id = ?""",
+                   (titulo, descripcion, completada, id,))
+    conexion.commit()
+    conexion.close()
