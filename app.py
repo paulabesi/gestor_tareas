@@ -29,19 +29,25 @@ def cosas():
 
 @app.route("/tareas/<id>", methods=["DELETE"])
 def borrar_cosas(id):
-    eliminar_tarea(id)
-    return jsonify({"mensaje": "Tarea borrada correctamente"})
+    if obtener_tarea_por_id(id):
+        eliminar_tarea(id)
+        return jsonify({"mensaje": "Tarea borrada correctamente"})
+    else:
+        return jsonify({"error": "tarea no encontrada"}), 404
 
 
 @app.route("/tareas/<id>", methods=["PUT"])
 def editar_tarea(id):
-    tarea = request.get_json()
-    actualizar_tarea(
-        id, tarea["titulo"], tarea["descripcion"], tarea["completada"])
-    tarea_final = obtener_tarea_por_id(id)
-    final = {"id": tarea_final[0], "titulo": tarea_final[1],
-             "descripcion": tarea_final[2], "completada": bool(tarea_final[3])}
-    return jsonify(final)
+    if obtener_tarea_por_id(id):
+        tarea = request.get_json()
+        actualizar_tarea(
+            id, tarea["titulo"], tarea["descripcion"], tarea["completada"])
+        tarea_final = obtener_tarea_por_id(id)
+        final = {"id": tarea_final[0], "titulo": tarea_final[1],
+                 "descripcion": tarea_final[2], "completada": bool(tarea_final[3])}
+        return jsonify(final)
+    else:
+        return jsonify({"error": "Tarea no encontrada"}), 404
 
 
 if __name__ == "__main__":
